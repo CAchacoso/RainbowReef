@@ -41,4 +41,4 @@ The shell has 3 lives and will lose a life when the star touches the bottom of t
 ### NOTE: Once the player loses all their lives or the Squid has been defeated, the game will exit automatically.
 
 # There is 1 powerup that you can obtain when playing:
-Extra Life (Located bottom left - Increase your lives by + 1.
+Extra Life (2) (Located at the top corners of the map - Increase your lives by + 1).
