@@ -27,18 +27,21 @@ Using the command line:
 
 ### Controls
 
-A= Move left
-D = Move right
+Left Arrow = Move left
+Right Arrow = Move right
+
+# Goal
+Either destroy all the squids or just take out the big squid using the star.
 
 # Game Setup 
-The game is a single player game involving breaking blocks to defeat the enemy. 
+The game is a single player game involving breaking blocks to defeat the enemy(Squids). 
 
 There are breakable walls that the star can destroy.
 There are unbreakable walls that the star and can collide with.
 
 The shell has 3 lives and will lose a life when the star touches the bottom of the screen.
 
-### NOTE: Once the player loses all their lives or the Squid has been defeated, the game will exit automatically.
+### NOTE: Once the player loses all their lives or the Big Squid has been defeated, the game will exit automatically.
 
-# There is 1 powerup that you can obtain when playing:
-Extra Life (2) (Located at the top corners of the map - Increase your lives by + 1).
+# There is 1 upgrade that you can obtain when playing:
+Extra Life (2) (Located at the top corners of the map - Increase your lives by 1).
