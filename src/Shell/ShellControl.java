@@ -16,7 +16,6 @@ public class ShellControl implements KeyListener{
 
     @Override
     public void keyTyped(KeyEvent ke) {
-
     }
 
     @Override

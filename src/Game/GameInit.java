@@ -29,7 +29,6 @@ public class GameInit extends JPanel{
     public static void main(String[] args) {
         Thread x;
         GameInit shell = new GameInit();
-        Endgame end = new Endgame();
         shell.init();
         try {
 
@@ -66,10 +65,10 @@ public class GameInit extends JPanel{
         s1 = new Shell(GameInit.WORLD_WIDTH/2 - 60, 700, 0, 0, 0, s1img);
         background = new Map(back);
         background.init();
-        star = new Star(GameInit.WORLD_WIDTH/2 - 60, 700, -1 ,-2, projectile);
+        star = new Star(GameInit.WORLD_WIDTH/2 - 60, 500, -1 ,-2, projectile);
         bounds = new ScreenBounds(bound);
 
-        ShellControl sc1 = new ShellControl(s1, KeyEvent.VK_A, KeyEvent.VK_D);
+        ShellControl sc1 = new ShellControl(s1, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
 
         this.jf.setLayout(new BorderLayout());
         this.jf.add(this);
@@ -98,7 +97,6 @@ public class GameInit extends JPanel{
 
         this.star.drawImage(buffer);
         g2.drawImage(world, 0, 0, null);
-
-        this.s1.GameOver();
+        this.star.displayLives(g2);
     }
 }

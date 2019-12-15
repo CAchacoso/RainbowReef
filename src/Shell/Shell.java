@@ -4,7 +4,10 @@ import Game.GameInit;
 import Game.GameObjects;
 import Game.Map;
 import Game.ScreenBounds;
+import Immoveables.LifeBlock;
+import Immoveables.Squid;
 import Immoveables.Unbreakable;
+import Star.Star;
 import javafx.stage.Screen;
 
 import java.awt.*;
@@ -18,14 +21,16 @@ public class Shell extends GameObjects {
     private int vy;
     private int angle;
 
-    public int lives = 3;
-
     private int R = 3;
 
     private BufferedImage img;
     private Rectangle bound = new Rectangle(this.x, this.y);
     private boolean RightPressed;
     private boolean LeftPressed;
+    private int coolDown = 50;
+    private int coolDownTime = 0;
+
+    public Star star;
 
     public Shell(int x, int y, int vx, int vy, int angle, BufferedImage img) {
         super(x, y, img);
@@ -35,7 +40,6 @@ public class Shell extends GameObjects {
         this.vy = vy;
         this.img = resize(img, 90, 50);
         this.angle = angle;
-        this.lives = 3;
         Map.object.add(this);
     }
 
@@ -83,6 +87,9 @@ public class Shell extends GameObjects {
             this.moveRight();
             updateBounds();
         }
+        if (coolDownTime < coolDown) {
+            coolDownTime += 1;
+        }
         checkCollision(this);
     }
 
@@ -118,12 +125,6 @@ public class Shell extends GameObjects {
         return "x=" + x + ", y=" + y + ", angle=" + angle;
     }
 
-    public void GameOver() {
-        if (lives == 0) {
-            System.exit(1);
-        }
-    }
-
     public void drawImage(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
@@ -133,10 +134,10 @@ public class Shell extends GameObjects {
 
     public void checkCollision(Shell s) {
         GameObjects obj;
-        Rectangle tbound = s.getBounds();
+        Rectangle sbound = s.getBounds();
         for (int i = 0; i < Map.object.size(); i++) {
             obj = Map.object.get(i);
-            if (tbound.intersects(obj.getBounds())) {
+            if (sbound.intersects(obj.getBounds())) {
                 handle(obj);
             }
         }
@@ -151,11 +152,11 @@ public class Shell extends GameObjects {
     }
 
     public void handle(GameObjects obj) {
-        if (obj instanceof Unbreakable){
-            if (this.LeftPressed){
+        if (obj instanceof Unbreakable) {
+            if (this.LeftPressed) {
                 this.x += vx;
             }
-            if (this.RightPressed){
+            if (this.RightPressed) {
                 this.x -= vx;
             }
         }

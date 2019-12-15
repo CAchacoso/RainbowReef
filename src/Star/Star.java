@@ -18,11 +18,14 @@ public class Star extends GameObjects {
     private int y;
     private int vx;
     private int vy;
+    private int lives = 4;
+    private int spawnX = GameInit.WORLD_WIDTH/2 - 60;
+    private int spawnY = 500;
     private int angle;
     boolean active = true;
-    private boolean SpacePressed;
     private boolean isMoving;
     private static BufferedImage star;
+    private Graphics2D buffer;
     private Rectangle bound = new Rectangle(this.x, this.y, this.star.getWidth(), this.star.getHeight());
 
     static {
@@ -46,13 +49,16 @@ public class Star extends GameObjects {
         active = true;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
     public void update() {
-        this.move();
+        move();
         updateBounds();
+        if (lives > 0){
+            if (y > 840){
+                this.x = spawnX;
+                this.y = spawnY;
+                loseLife();
+            }
+        }
         checkCollision(this);
     }
 
@@ -67,26 +73,10 @@ public class Star extends GameObjects {
     private void move() {
         x += vx;
         y += vy;
-        if (x < 500) vx = -vx;
-        if (y < 0) vy = -vy;
-        if(x > 1440) vx = -vx;
+        if(x < 30) vx = -vx;
+        if(y < 0) vy = -vy;
+        if(x > 1400) vx = -vx;
         isMoving = true;
-        checkBorder();
-    }
-
-    private void checkBorder() {
-        if (x < 30) {
-            x = 30;
-        }
-        if (x >= GameInit.WORLD_WIDTH - 88) {
-            x = GameInit.WORLD_WIDTH - 88;
-        }
-        if (y < 40) {
-            y = 40;
-        }
-        if (y >= GameInit.WORLD_HEIGHT - 80) {
-            y = GameInit.WORLD_HEIGHT - 80;
-        }
     }
 
     public void checkCollision(Star star) {
@@ -94,24 +84,29 @@ public class Star extends GameObjects {
         Rectangle sbound = star.getBounds();
         for (int i = 0; i < Map.object.size(); i++) {
             obj = Map.object.get(i);
-            if (sbound.intersects(obj.getBounds()) && obj != shell) {
-                if (obj instanceof Breakable) {
-                    this.x += vx;
-                    this.y += vy;
-                    this.angle += angle;
-                    Map.object.remove(obj);
-                }
-                if (obj instanceof Unbreakable) {
-                    this.x += vx;
-                    this.y += vy;
-                    this.angle -= angle;
-                }
-                if (obj instanceof Squid) {
-                    System.exit(1);
-                }
-                active = false;
+            if (sbound .intersects(obj.getBounds())) {
+                handle(obj);
             }
         }
+    }
+
+    public void displayLives(Graphics g2){
+        g2.setFont(new Font("CourierNew", Font.BOLD, 25));
+        g2.setColor(Color.BLUE);
+        g2.drawString("Lives : " + this.getLives(), GameInit.WORLD_WIDTH/2 + 420, GameInit.WORLD_HEIGHT * 35 / 40);
+        g2.setColor(Color.BLUE);
+    }
+
+    public int getLives(){
+        return this.lives;
+    }
+
+    public void loseLife(){
+        this.lives -= 1;
+    }
+
+    public void gainLife(){
+        this.lives += 1;
     }
 
     public Rectangle getBounds(){
@@ -123,6 +118,52 @@ public class Star extends GameObjects {
     }
 
     public void handle(GameObjects obj){
-
+        if(obj instanceof Shell) {
+            if(this.isMoving){
+                vy = -vy;
+            }else {
+                vx = -vx;
+            }
+        }
+        if(obj instanceof Squid || this.lives < 0) {
+            if(this.isMoving){
+                vy = +vy;
+            }else {
+                vx = +vx;
+            }
+            System.exit(1);
+        }
+        if (obj instanceof Breakable) {
+            if(this.isMoving){
+                vy = -vy;
+                Map.object.remove(obj);
+            }else {
+                vx = -vx;
+            }
+        }
+        if (obj instanceof LittleSquid) {
+            if(this.isMoving){
+                vy = -vy;
+                Map.object.remove(obj);
+            }else {
+                vx = -vx;
+            }
+        }
+        if (obj instanceof Unbreakable) {
+            if(this.isMoving){
+                vy = -vy;
+            }else{
+                vx = -vx;
+            }
+        }
+        if(obj instanceof LifeBlock){
+            if(this.isMoving){
+                vy = -vy;
+                Map.object.remove(obj);
+                gainLife();
+            }else{
+                vx = -vx;
+            }
+        }
     }
 }

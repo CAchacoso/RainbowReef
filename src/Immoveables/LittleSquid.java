@@ -1,18 +1,16 @@
 package Immoveables;
 
-import Game.*;
-import Shell.Shell;
-import Star.Star;
+import Game.GameObjects;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Squid extends GameObjects {
+public class LittleSquid extends GameObjects {
     private Rectangle bound;
 
-    public Squid(BufferedImage img, int x, int y) {
+    public LittleSquid(BufferedImage img, int x, int y) {
         super(x, y, img);
-        this.img = resize(img, 130, 90);
+        this.img = resize(img, 50, 60);
         this.bound = new Rectangle(x, y, this.img.getWidth(), this.img.getHeight());
         objects.add(this);
     }
@@ -27,4 +25,6 @@ public class Squid extends GameObjects {
 
         return rimg;
     }
+
+
 }

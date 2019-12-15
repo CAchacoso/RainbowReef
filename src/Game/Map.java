@@ -16,7 +16,7 @@ public class Map {
     private int y;
     BufferedImage img;
     public static ArrayList<GameObjects> object = new ArrayList<>();
-    private BufferedImage shell, squid, pblock, yblock, rblock, gblock, lbblock, dbblock, wblock, sblock, lifeblock;
+    private BufferedImage squid, pblock, yblock, rblock, gblock, lbblock, dbblock, wblock, lifeblock;
 
     public Map(BufferedImage img){
         this.img = resize(img, GameInit.WORLD_WIDTH, GameInit.WORLD_HEIGHT);
@@ -36,7 +36,6 @@ public class Map {
     public void init() {
         BufferedImage back = null;
         try {
-            shell = read(new File("resources/Shell.png"));
             squid = read(new File("resources/Squid.png"));
             wblock = read(new File("resources/Block7.gif"));
             rblock = read(new File("resources/Block3.gif"));
@@ -45,53 +44,98 @@ public class Map {
             lbblock = read(new File("resources/Block5.gif"));
             dbblock = read(new File("resources/Block6.gif"));
             pblock = read(new File("resources/Block1.gif"));
-            sblock = read(new File("resources/Block_solid.gif"));
             lifeblock = read(new File("resources/Block_life.gif"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //Solid Blocks (x = 30, y = 60)
-        for (int a = 30; a < GameInit.WORLD_WIDTH - 30; a += 60) {
-            object.add(new Unbreakable(sblock, a, 35));
-        }
-        for (int b = 60; b < GameInit.WORLD_HEIGHT - 30; b += 30) {
-            object.add(new Unbreakable(sblock, 30, b));
-        }
-        for (int c = 60; c < GameInit.WORLD_HEIGHT - 30; c += 30) {
-            object.add(new Unbreakable(sblock, GameInit.WORLD_WIDTH - 90, c));
-        }
-        //Squid
-        object.add(new Squid(squid, GameInit.WORLD_WIDTH / 2 - 60, 70));
+        //Big Squid
+        object.add(new Squid(squid, GameInit.WORLD_WIDTH / 2 - 65, 50));
+        //Little Squids
+        object.add(new LittleSquid(squid, GameInit.WORLD_WIDTH / 2 + 517, 270));
+        object.add(new LittleSquid(squid, GameInit.WORLD_WIDTH / 2 - 563, 270));
         //Life Blocks
-        object.add(new LifeBlock(lifeblock, 90, 65));
-        object.add(new LifeBlock(lifeblock, GameInit.WORLD_WIDTH - 150, 65));
+        object.add(new LifeBlock(lifeblock, 30, 35));
+        object.add(new LifeBlock(lifeblock, GameInit.WORLD_WIDTH - 90, 35));
         //White Blocks
-        for (int a = 90; a < GameInit.WORLD_WIDTH - 90; a += 60) {
+        for (int a = 30; a < 330; a += 60) {
+            object.add(new Breakable(wblock, a, 180));
+        }
+        for (int a = 450; a < 950; a += 60){
+            object.add(new Breakable(wblock, a, 180));
+        }
+        for (int a = 1110; a < GameInit.WORLD_WIDTH - 30; a += 60){
             object.add(new Breakable(wblock, a, 180));
         }
         //Red Blocks
-        for (int a = 90; a < GameInit.WORLD_WIDTH - 90; a += 60) {
+        for (int a = 30; a < 330; a += 60) {
+            object.add(new Breakable(rblock, a, 210));
+        }
+        for (int a = 450; a < 950; a += 60){
+            object.add(new Breakable(rblock, a, 210));
+        }
+        for (int a = 1110; a < GameInit.WORLD_WIDTH - 30; a += 60){
             object.add(new Breakable(rblock, a, 210));
         }
         //Yellow Blocks
-        for (int a = 90; a < GameInit.WORLD_WIDTH - 90; a += 60) {
+        for (int a = 30; a < 330; a += 60) {
+            object.add(new Breakable(yblock, a, 240));
+        }
+        for (int a = 450; a < 950; a += 60){
+            object.add(new Breakable(yblock, a, 240));
+        }
+        for (int a = 1110; a < GameInit.WORLD_WIDTH - 30; a += 60){
             object.add(new Breakable(yblock, a, 240));
         }
         //Green Blocks
-        for (int a = 90; a < GameInit.WORLD_WIDTH - 90; a += 60) {
+        for (int a = 30; a < 150; a += 60){
+            object.add(new Breakable(gblock, a, 270));
+        }
+        for (int a = 210; a < 330; a += 60){
+            object.add(new Breakable(gblock, a, 270));
+        }
+        for (int a = 450; a < 950; a += 60) {
+            object.add(new Breakable(gblock, a, 270));
+        }
+        for (int a = 1110; a <  1200; a += 60){
+            object.add(new Breakable(gblock, a, 270));
+        }
+        for (int a = 1290; a < GameInit.WORLD_WIDTH - 30; a += 60){
             object.add(new Breakable(gblock, a, 270));
         }
         //Light Blue Blocks
-        for (int a = 90; a < GameInit.WORLD_WIDTH - 90; a += 60) {
+        for (int a = 30; a < 150; a += 60){
+            object.add(new Breakable(lbblock, a, 300));
+        }
+        for (int a = 210; a < 330; a += 60){
+            object.add(new Breakable(lbblock, a, 300));
+        }
+        for (int a = 450; a < 950; a += 60) {
+            object.add(new Breakable(lbblock, a, 300));
+        }
+        for (int a = 1110; a < 1200; a += 60){
+            object.add(new Breakable(lbblock, a, 300));
+        }
+        for (int a = 1290; a < GameInit.WORLD_WIDTH - 30; a += 60){
             object.add(new Breakable(lbblock, a, 300));
         }
         //Dark Blue Blocks
-        for (int a = 90; a < GameInit.WORLD_WIDTH - 90; a += 60) {
+        for (int a = 30; a < 330; a += 60) {
+            object.add(new Breakable(dbblock, a, 330));
+        }
+        for (int a = 450; a < 950; a += 60){
+            object.add(new Breakable(dbblock, a, 330));
+        }
+        for (int a = 1110; a < GameInit.WORLD_WIDTH - 30; a += 60){
             object.add(new Breakable(dbblock, a, 330));
         }
         //Purple Blocks
-        for (int a = 90; a < GameInit.WORLD_WIDTH - 90; a += 60) {
+        for (int a = 30; a < 330; a += 60) {
+            object.add(new Breakable(pblock, a, 360));
+        }
+        for (int a = 450; a < 950; a += 60){
+            object.add(new Breakable(pblock, a, 360));
+        }
+        for (int a = 1110; a < GameInit.WORLD_WIDTH - 30; a += 60){
             object.add(new Breakable(pblock, a, 360));
         }
     }
